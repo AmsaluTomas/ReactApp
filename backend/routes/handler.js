@@ -1,5 +1,10 @@
 const express = require('express');
+// const { Schema } = require('mongoose');
 const router = express.Router();
+
+//for mongo
+const Schemas = require('../models/Schemas.js');
+
 
 router.get('/tweets', (req, res) => {
     const str = [
@@ -27,6 +32,22 @@ router.get('/tweets', (req, res) => {
 
 router.post('/addTweet', (req, res) => {
     res.end('NA');
+});
+
+router.get('/addUser', async(req,res) =>{
+    // readData
+    const user = {username:'ella', fullname:'Ella amy'};
+    const newUser = new Schemas.userDef(user);
+    try{
+        await newUser.save( async(err, newUserResult) =>{
+            console.log('New User added to DB!');
+            res.end('New User added to DB!');
+        });
+    }
+    catch{
+        console.log(err);
+        res.end('New User Adding Failed!!');
+    }
 });
 
 module.exports = router;
